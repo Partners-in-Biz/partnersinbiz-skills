@@ -5,7 +5,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PACK_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 MANIFEST="$PACK_ROOT/manifest.json"
-AUTH_JS="$SCRIPT_DIR/pib-auth.mjs"
+AUTH_JS="$SCRIPT_DIR/pib-auth.cjs"
 
 die() { echo "error: $*" >&2; exit 1; }
 
@@ -94,15 +94,22 @@ Usage:
   pib-skills status
   pib-skills install [all|core|growth]
   pib-skills login
-  pib-skills logout
+  pib-skills use <org name or org id>
+  pib-skills orgs
   pib-skills whoami
+  pib-skills print-auth --json
+  pib-skills logout [name|--all]
   pib-skills verify-contracts
+
+Login adds a workspace profile. It does not replace other stored logins.
+use / orgs switch among workspaces you have already approved.
 
 Env:
   PIB_SKILLS_DEST   install target (default: ~/.hermes/skills)
   PIB_API_BASE      API origin (default: https://partnersinbiz.online)
-  PIB_ACCESS_TOKEN  optional personal token instead of device login
-  PIB_ORG_ID        org id for X-Org-Id
+  PIB_ACCESS_TOKEN  optional personal token instead of device login (no org hopping)
+  PIB_ORG_ID        select a stored profile by org id for this process
+  PIB_PROFILE       select a stored profile by name for this process
 EOF
 }
 
@@ -112,7 +119,7 @@ main() {
   case "$cmd" in
     status) cmd_status "$@" ;;
     install) cmd_install "$@" ;;
-    login|logout|whoami) require_node; node "$AUTH_JS" "$cmd" "$@" ;;
+    login|logout|whoami|use|orgs|print-auth) require_node; node "$AUTH_JS" "$cmd" "$@" ;;
     verify-contracts) cmd_verify_contracts "$@" ;;
     -h|--help|help) cmd_help ;;
     *) die "unknown command: $cmd (try help)" ;;

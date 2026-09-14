@@ -5,13 +5,13 @@ Interactive agents may only perform actions the **requesting human** could perfo
 | Actor | Credential |
 | --- | --- |
 | Human in Messages | Session → mint `pib_dlg_` (automatic) |
-| External Cursor / Claude / Hermes | Device OAuth (`pib-skills login`) or Settings personal token (`pib_usr_`) |
+| External Cursor / Claude / Hermes | Device OAuth (`pib-skills login` / `use`) or Settings personal token (`pib_usr_`) |
 | Cron / watcher | `AI_API_KEY` or `pib_ag_` / `pib_ak_` |
 
 ## Device login
 
 1. `POST /api/v1/oauth/device/code`
-2. Human opens `/connect/agent?code=ABCD-EFGH` and approves one org
+2. Human opens `/connect/agent?code=ABCD-EFGH` and approves one org (login again to add another profile)
 3. `POST /api/v1/oauth/token` with `grant_type=urn:ietf:params:oauth:grant-type:device_code`
 4. `GET /api/v1/oauth/whoami` with the access token
 

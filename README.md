@@ -60,7 +60,15 @@ In-app Messages already injects a user token. External agents must log in:
 ./bin/pib-skills login
 ```
 
-This opens Partners in Biz, you approve the agent, and credentials are stored at `~/.config/partnersinbiz/credentials.json`.
+This opens Partners in Biz, you approve **one** workspace, and a profile is stored at `~/.config/partnersinbiz/credentials.json`. Login again to add another organisation — existing profiles stay.
+
+```bash
+./bin/pib-skills orgs
+./bin/pib-skills use "RiseProof"
+./bin/pib-skills whoami
+```
+
+When the human names a workspace, the agent runs `use` then `whoami`, then sends that profile’s Bearer + `X-Org-Id`. It cannot use an org that was never approved.
 
 Headless fallback: Settings → Connected agents → Create personal token, then:
 
@@ -83,7 +91,7 @@ Never use `AI_API_KEY` for interactive work. That key is cron/system only.
 ```
 skills/*/SKILL.md   Agent Skills standard
 manifest.json       Pack metadata
-bin/pib-skills      install / login / status
+bin/pib-skills      install / login / use / orgs / whoami
 docs/               auth notes (device OAuth + user-delegation)
 ```
 
@@ -93,5 +101,6 @@ Canonical source of truth for PiB fleet skill-packs is this repo, vendored into 
 
 ```bash
 ./bin/pib-skills status
+./bin/pib-skills orgs
 ./bin/pib-skills whoami
 ```

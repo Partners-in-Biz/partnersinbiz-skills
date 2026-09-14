@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1 — 2026-09-14
+
+- Multi-org profiles: `pib-skills login` adds a workspace instead of overwriting. `use`, `orgs`, `logout [name|--all]`, and `print-auth --json` switch among approved orgs.
+- Rename `pib-auth.mjs` to `pib-auth.cjs` so Node 26 can run login (CommonJS in an `.mjs` filename fails).
+- `system-auth` teaches agents to `use` a named workspace, never mix tokens, and ask for another login when that org is not stored.
+
 ## 0.2.0 — 2026-09-14
 
 - Canonical public repo is `Partners-in-Biz/partnersinbiz-skills`.

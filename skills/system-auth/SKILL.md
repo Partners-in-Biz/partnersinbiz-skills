@@ -16,8 +16,9 @@ description: >
 2. **Cron, watchers, system maintenance** → platform `AI_API_KEY` or per-agent `pib_ag_` / workspace `pib_ak_` keys only.
 3. Skills describe *how* to call the API. The API enforces *whether*. Never assume a god-key bypasses org ACLs.
 4. Effective permission = `user scopes ∩ agent capability ∩ approval gates`.
-5. After login, call `GET /api/v1/oauth/whoami` and send `X-Org-Id` on every tenant call.
-6. On 403, print the API `error` and stop. Do not retry with `AI_API_KEY`.
+5. After login or `pib-skills use`, call `GET /api/v1/oauth/whoami` and send `X-Org-Id` from **that** profile on every tenant call.
+6. On 403, print the API `error` and stop. Do not retry with `AI_API_KEY` or another workspace’s token.
+7. Never send org A’s Bearer token with org B’s `X-Org-Id`. Switch with `pib-skills use` first.
 
 ## Mode A — Messages / in-app chat (automatic)
 
@@ -39,10 +40,22 @@ You do not have a Messages-injected token. Identify the human first.
 
 ```bash
 ./bin/pib-skills login
+./bin/pib-skills orgs
 ./bin/pib-skills whoami
 ```
 
-`login` starts device OAuth, opens `https://partnersinbiz.online/connect/agent`, and stores credentials at `~/.config/partnersinbiz/credentials.json`.
+`login` starts device OAuth, opens `https://partnersinbiz.online/connect/agent`, and **adds** a workspace profile at `~/.config/partnersinbiz/credentials.json`. Logging in again for another org keeps existing profiles.
+
+When the human names a workspace:
+
+1. `pib-skills use "<name or org id>"`
+2. `pib-skills whoami` — confirm `orgName` + `memberRole`
+3. `pib-skills print-auth --json` — attach `accessToken` as Bearer and `orgId` as `X-Org-Id`. Do **not** echo the token back to the human.
+4. If `use` says there is no stored login, stop and ask them to `pib-skills login` and approve **that** org. Do not invent access.
+
+In one turn (“invoice on A, then post on B”): `use A` → work → `use B` → work. Each call uses only that profile’s token and `X-Org-Id`.
+
+`pib-skills orgs` lists **approved** profiles only, not every membership in the product.
 
 Headless fallback (Settings → Connected agents → Create personal token):
 
@@ -50,6 +63,8 @@ Headless fallback (Settings → Connected agents → Create personal token):
 export PIB_ACCESS_TOKEN='pib_usr_…'
 export PIB_ORG_ID='<orgId>'
 ```
+
+`PIB_ACCESS_TOKEN` is a single-token override (no org hopping). `PIB_ORG_ID` / `PIB_PROFILE` select a **stored** profile for this process without changing the default.
 
 Then:
 
@@ -59,7 +74,7 @@ Authorization: Bearer <token>
 X-Org-Id: <orgId>
 ```
 
-Use the returned `uid`, `email`, `orgId`, `memberRole` as the acting identity. Admin/ops skills still 403 when `memberRole` cannot perform the action.
+Use the returned `uid`, `email`, `orgId`, `memberRole` as the acting identity. Admin/ops skills still 403 when `memberRole` cannot perform the action. Owner in one org does not make the agent admin in another.
 
 ```http
 Authorization: Bearer <pib_dlg_ or pib_usr_>
@@ -92,9 +107,12 @@ Tag writes with `createdByType: "system"` when the job is cron-originated.
 
 - Using the platform god-key in an interactive session “because it is easier”
 - Creating resources in an org the requesting user cannot access
+- Mixing one workspace’s token with another workspace’s `X-Org-Id`
+- Retrying a 403 with a different stored profile’s token
 - Claiming success after a write without read-back
 - Inventing a remint ritual for the human to paste a new token into chat
+- Printing `print-auth` tokens in the chat reply
 
 ## When access is denied
 
-Surface the exact API `error` string. Ask the human to grant access, switch workspace, or re-run `pib-skills login`. Never retry with a more privileged key.
+Surface the exact API `error` string. If the workspace is not a stored profile, ask the human to `pib-skills login` and approve that org. Never retry with a more privileged key or a different profile’s token.
