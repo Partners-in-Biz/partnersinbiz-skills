@@ -1,0 +1,14 @@
+{
+  "name": "partnersinbiz-skills",
+  "description": "Partners in Biz agent skills for Cursor, Claude Code, Grok, Grok Bot, and Hermes.",
+  "owner": { "name": "Partners in Biz" },
+  "plugins": [
+    {
+      "name": "partnersinbiz",
+      "description": "Operate a Partners in Biz workspace as yourself.",
+      "homepage": "https://github.com/Partners-in-Biz/partnersinbiz-skills",
+      "keywords": ["partners-in-biz", "pib", "grok", "grok-bot"],
+      "source": { "type": "local", "path": "." }
+    }
+  ]
+}

@@ -3,6 +3,7 @@
 ## 0.2.0 — 2026-09-14
 
 - Canonical public repo is `Partners-in-Biz/partnersinbiz-skills`.
+- Add Grok / Grok Bot install (`~/.grok/skills`, `grok plugin install`, and a Bot `/workspace` clone).
 - Add device OAuth login (`pib-skills login`) and Settings personal tokens so external agents act as the signed-in human.
 - Include extra Cowork/Claude skills (gather, marketing/ads, higgsfield, studio, software-development) alongside the original core/growth pack.
 - `system-auth` now documents Messages injection **and** external device login. Never use `AI_API_KEY` for interactive work.

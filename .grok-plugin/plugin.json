@@ -1,0 +1,12 @@
+{
+  "name": "partnersinbiz",
+  "version": "0.2.0",
+  "description": "Partners in Biz agent skills so Cursor, Claude Code, Grok, Grok Bot, and Hermes can operate a workspace as the signed-in human.",
+  "author": {
+    "name": "Partners in Biz",
+    "url": "https://partnersinbiz.online"
+  },
+  "homepage": "https://github.com/Partners-in-Biz/partnersinbiz-skills",
+  "repository": "https://github.com/Partners-in-Biz/partnersinbiz-skills",
+  "keywords": ["partners-in-biz", "pib", "crm", "grok", "grok-bot"]
+}

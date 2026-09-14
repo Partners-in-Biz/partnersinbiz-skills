@@ -1,6 +1,6 @@
 # Partners in Biz skills
 
-Public skill pack so **your** Cursor, Claude Code, or Hermes agent can operate a Partners in Biz workspace as **you**.
+Public skill pack so **your** Cursor, Claude Code, Grok, or Hermes agent can operate a Partners in Biz workspace as **you**.
 
 Repo: [github.com/Partners-in-Biz/partnersinbiz-skills](https://github.com/Partners-in-Biz/partnersinbiz-skills)
 
@@ -21,6 +21,25 @@ You can also clone into `~/.agents/skills/partnersinbiz-skills`.
 
 ```bash
 git clone https://github.com/Partners-in-Biz/partnersinbiz-skills.git ~/.claude/skills/partnersinbiz
+```
+
+### Grok / Grok Bot
+
+Grok (local coding agent) loads `~/.grok/skills/<name>/SKILL.md`. Link the pack there:
+
+```bash
+git clone https://github.com/Partners-in-Biz/partnersinbiz-skills.git
+cd partnersinbiz-skills
+PIB_SKILLS_DEST="$HOME/.grok/skills" ./bin/pib-skills install all
+# or: grok plugin install Partners-in-Biz/partnersinbiz-skills --trust
+```
+
+Grok also scans `~/.cursor/skills` and `~/.claude/skills`, so a Cursor or Claude install already shows up.
+
+**Grok Bot** (desktop Bots) work on a cloud computer, not your Mac. In a Bot chat, ask it to:
+
+```
+Clone https://github.com/Partners-in-Biz/partnersinbiz-skills.git into /workspace/partnersinbiz-skills, then run ./bin/pib-skills login from that folder. Enable the skills for this Bot if they do not appear in the / menu (Settings → Plugins → Yours).
 ```
 
 ### Hermes
