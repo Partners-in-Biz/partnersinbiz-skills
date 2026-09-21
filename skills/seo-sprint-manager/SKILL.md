@@ -59,8 +59,9 @@ Interactive Hermes runs use the **user-delegation** token injected by Messages /
 | Audience | URL | What's there |
 |---|---|---|
 | Admin (operator mode) | `/portal/seo` | Index of all sprints across all clients + presence pill + "+ New Sprint" |
-| Admin (workspace mode) | `/admin/org/[slug]/seo` | Per-client SEO landing — redirects to the active sprint cockpit, or shows "+ Create sprint" CTA if none exists. Also rendered in the sidebar as a collapsible **SEO Sprint** section with links to all 9 cockpit tabs. |
-| Admin sprint cockpit | `/portal/seo/sprints/[id]` | Today / Tasks / Keywords / Backlinks / Content / Audits / Optimizations / Health / Settings |
+| Admin (workspace mode) | `/admin/org/[slug]/seo` | Per-client SEO landing. Do not invent extra cockpit tabs. |
+| Sprint cockpit (production tabs only) | `/portal/seo/sprints/[id]?orgId={orgId}&orgSlug={slug}` | Progress, Performance, Pages, Blog, Keywords, Content, Audits. Always include `orgId` and `orgSlug`. A bare sprint URL 404s when the viewer is in another workspace. |
+| GSC connect (live human page) | `/portal/seo/settings/integrations?orgId={orgId}&orgSlug={slug}` | Connect / Reconnect Search Console and pick the property. This is the only portal URL to give a human for GSC. |
 | Admin tools (standalone) | `/portal/seo/tools` | Run any of the 13 in-house SEO tools by hand |
 | Client portal | `/portal/seo` | Hero dashboard for single-sprint clients (day-of-90, progress, top movers, recent wins, deep links). Multi-sprint clients see a card list. |
 | Public audit share | `/seo-audit/[token]` | Read-only audit snapshot the admin can hand to a client |
@@ -362,8 +363,9 @@ PiB requests `https://www.googleapis.com/auth/webmasters`, not readonly. This is
 Search Console read/write scope and is needed for sitemap submission. Existing
 connections made before this scope change may only have
 `https://www.googleapis.com/auth/webmasters.readonly`; if sitemap submit returns an
-insufficient-scope error, reconnect GSC from the sprint Settings tab, select the
-property again, then retry.
+insufficient-scope error, emit a `reconnect_gsc` uiAction (below) so the human
+reconnects and selects the property again, then retry. Do not paste
+`/portal/seo/sprints/[id]/settings`.
 
 **Can do through the PiB API**
 
@@ -504,8 +506,21 @@ All writes include `createdBy`, `createdByType` (`user|agent|system`), `updatedB
 ## When tools error
 
 If the cron has been failing or GSC tokens expired, sprint health will show
-`integrations.gsc.tokenStatus = 'expired'`. Surface this as: "GSC connection expired
-for [client] — needs reconnect at /portal/seo/sprints/[id]/settings".
+`integrations.gsc.tokenStatus = 'expired'`. Say "GSC connection expired for [client]"
+and emit this uiAction on the same assistant message. Do not paste a Settings path.
+
+```json
+{
+  "id": "reconnect-gsc-<sprintId>",
+  "type": "reconnect_gsc",
+  "label": "Reconnect GSC",
+  "variant": "primary",
+  "payload": { "sprintId": "<sprintId>" }
+}
+```
+
+The only fallback URL, if you must name a page, is
+`/portal/seo/settings/integrations?orgId={orgId}&orgSlug={slug}`.
 
 ## Client Document Handoff
 
