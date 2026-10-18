@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.2.2 — 2026-10-18
+
+- Add `pib-paid-ads` (growth): campaign spec → proposal → approval routing (Elon/Peet
+  16:00 batch) → execution. Campaigns created PAUSED with lifetime budget per ad set.
+  Kill switch: `setCampaignStatus` PAUSED on anomaly. Owner: maya; critical risk;
+  approvalGates: spend.
+- Add `pib-ad-variants` (growth): 3x3 variant grid from measured winner (one variable per
+  axis). Brand gate, safe-area verification, sourced claims, no hands on product/CTA.
+  Approved to Drive (pib-drive-saving); drafts to cockpit asset store. Hand to Revenue
+  Lead. Owner: theo; medium risk.
+- Add `pib-competitor-ads` (growth): monitor competitor strategies via Meta Ad Library
+  (manual viewing only). DEFERRED until T6 tool ships. Owner: maya; low risk.
+- Add `pib-drive-saving` (growth): recreated with compressed rules (folder layout,
+  Higgsfield output, rclone by folder ID). New section: resolve folder via
+  `drive_folder_resolve` registry; never hard-code folder IDs. Added: what goes to Drive
+  (approved creative, winners, deliverables) vs. cockpit (drafts, experiments). Owner:
+  pip; medium risk.
+
 ## 0.2.1 — 2026-09-14
 
 - Multi-org profiles: `pib-skills login` adds a workspace instead of overwriting. `use`, `orgs`, `logout [name|--all]`, and `print-auth --json` switch among approved orgs.
