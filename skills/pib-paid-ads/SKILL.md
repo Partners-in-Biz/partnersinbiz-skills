@@ -1,6 +1,6 @@
 ---
 name: pib-paid-ads
-description: Paid ads campaign workflow in plugin-ads. Write campaign spec, propose for approval, execute only from approved proposal. Elon up to R500, above R500 goes to Peet via 16:00 batch. Campaigns PAUSED with lifetime budget per ad set; verify caps before activation. Use setPaymentStatus PAUSED as kill switch. Post approval evidence and spend tracking.
+description: Paid ads campaign workflow in plugin-ads. Write campaign spec, propose for approval, execute only from approved proposal. Elon up to R500, above R500 goes to Peet via 16:00 batch. Campaigns PAUSED with lifetime budget per ad set; verify caps before activation. Use setCampaignStatus PAUSED as kill switch. Post approval evidence and spend tracking.
 version: 1.0.0
 author: Partners in Biz
 license: MIT
@@ -22,7 +22,7 @@ Write a campaign spec document with these sections:
 4. **Creative refs**: links or IDs to approved creative assets (images, videos, copy variations)
 5. **Platform**: Meta, Google, TikTok, LinkedIn, or YouTube
 6. **Schedule**: start date, end date, timezone
-7. **Lifetime budget per ad set**: in ZAR, split across each ad set (e.g. "Ad set A: R2000, Ad set B: R2500")
+7. **Lifetime budget per ad set**: in ZAR, split across each ad set (e.g. "Ad set A: R200, Ad set B: R250")
 
 ## Approval thresholds
 
@@ -41,7 +41,7 @@ Write a campaign spec document with these sections:
 2. Set **lifetime budget on every ad set** (not daily budget). Budget is final and does not reset.
 3. Before activation, set **platform-specific spend caps** (e.g. Meta daily cap, Google daily budget limit).
 4. **Verify caps are in place** before moving the campaign status to active.
-5. **Hourly sweeper pauses campaigns** at the cap. If a campaign hits its cap mid-day, the sweeper pauses it; Theo monitors the sweeper health.
+5. **Hourly sweeper pauses campaigns** at the cap. If a campaign hits its cap mid-day, the sweeper pauses it; Mira reports the sweeper's pauses as part of her spend report.
 
 ## Kill switch: `setCampaignStatus` PAUSED
 
@@ -68,8 +68,8 @@ After campaign execution, post these details on the plugin-ads issue:
 - Approver name and approval date
 - Campaign ID and ad set IDs (comma-separated)
 - Status: PAUSED (proof via screenshot or API call output)
-- Lifetime budget per ad set (e.g. "Ad set 1: R2000, Ad set 2: R2500")
-- Caps set per platform (e.g. "Meta: R300/day, Google: R250/day")
+- Lifetime budget per ad set (e.g. "Ad set 1: R200, Ad set 2: R250")
+- Caps set per platform (e.g. "Meta: R50/day, Google: R50/day")
 - Activation timestamp (when moved to active, if applicable)
 - Later: spend vs. cap tracking weekly (by Mira)
 
@@ -84,8 +84,7 @@ After campaign execution, post these details on the plugin-ads issue:
 Before launch:
 
 - [ ] Campaign spec complete (product, objective, audience, creative, platform, schedule, budget)
-- [ ] Proposal created in plugin-ads (if > R500)
-- [ ] Approval received (Elon or Peet via 16:00 batch)
+- [ ] Proposal created and approved in plugin-ads (Elon <= R500, Peet via 16:00 batch above)
 - [ ] Campaign created in PAUSED status
 - [ ] Lifetime budget set on every ad set
 - [ ] Platform caps configured (daily or equivalent)
@@ -97,6 +96,6 @@ Before launch:
 After activation:
 
 - [ ] Evidence posted on issue (proposal, ids, status, budget, caps, timestamp)
-- [ ] Hourly sweeper running and healthy (Theo monitor)
+- [ ] Hourly sweeper running and healthy (Mira monitors via spend report)
 - [ ] Daily check for ad rejections or anomalies
 - [ ] Weekly spend report from Mira (actual vs. cap, KPIs)

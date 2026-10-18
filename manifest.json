@@ -437,9 +437,7 @@
       "tier": "growth",
       "owner": "maya",
       "risk": "critical",
-      "requiredScopes": [
-        "ads:write"
-      ],
+      "requiredScopes": [],
       "approvalGates": [
         "spend"
       ],

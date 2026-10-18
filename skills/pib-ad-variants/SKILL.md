@@ -62,9 +62,11 @@ Examples:
 
 **Only approved winners or final variants** go to Drive (see pib-drive-saving):
 
+- [ ] Winner confirmed and metric documented
 - [ ] Brand gate pass (Theo sign-off)
 - [ ] All three Theo checks pass (safe area, sources, no hands)
 - [ ] Revenue Lead approval to promote to paid media (via pib-paid-ads)
+- [ ] Save to Drive per pib-drive-saving folder structure
 
 **Working drafts and non-winning variants** stay in the cockpit asset store. Never save drafts to Drive root or loose folders.
 
@@ -72,10 +74,11 @@ Examples:
 
 Once variants are approved and winners are identified:
 
-1. Post approved variants on Drive (pib-drive-saving folder structure).
-2. Document which variant(s) won and on what metric (CTR, CPA, etc.).
-3. Hand the winning assets to Revenue Lead with testing results.
-4. Revenue Lead launches via pib-paid-ads skill.
+1. Document which variant(s) won and on what metric (CTR, CPA, etc.).
+2. Pass all Theo checks (brand gate, safe area, sourced claims, no hands on product/CTA).
+3. Hand the winning assets to Revenue Lead for approval to promote to paid media.
+4. After Revenue Lead approval, save approved variants to Drive (pib-drive-saving folder structure).
+5. Revenue Lead launches via pib-paid-ads skill.
 
 ## Checks
 
@@ -88,3 +91,5 @@ Once variants are approved and winners are identified:
 - [ ] Files named YYYY-MM-DD <Product> <what> v01
 - [ ] Drafts in cockpit; approved only to Drive
 - [ ] Evidence and results posted with handoff to Revenue Lead
+- [ ] Revenue Lead approval received
+- [ ] Approved variants saved to Drive
