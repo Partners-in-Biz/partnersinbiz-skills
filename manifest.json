@@ -65,7 +65,11 @@
         "life-os-ops",
         "llm-providers-ops",
         "browser-agent",
-        "impeccable-design-discipline"
+        "impeccable-design-discipline",
+        "pib-paid-ads",
+        "pib-ad-variants",
+        "pib-competitor-ads",
+        "pib-drive-saving"
       ]
     }
   },
@@ -428,6 +432,37 @@
       "risk": "medium",
       "requiredScopes": [],
       "summary": "Impeccable design discipline (Apache 2.0 wrapper): named design command vocabulary, per-client design context (PRODUCT.md/DESIGN.md equivalent in wiki), deterministic anti-slop detector as runnable check (npx impeccable detect --json, exit 0/2). Layer 1 — zero platform changes."
+    },
+    "pib-paid-ads": {
+      "tier": "growth",
+      "owner": "maya",
+      "risk": "critical",
+      "requiredScopes": [],
+      "approvalGates": [
+        "spend"
+      ],
+      "summary": "Paid ads campaign workflow in plugin-ads. Write campaign spec, propose for approval (Elon up to R500, above R500 via Peet's 16:00 batch). Execute only from approved proposal. Campaigns created PAUSED with lifetime budget per ad set; verify caps before activation. Kill switch: setCampaignStatus PAUSED on anomaly, overspend, or pause order."
+    },
+    "pib-ad-variants": {
+      "tier": "growth",
+      "owner": "theo",
+      "risk": "medium",
+      "requiredScopes": [],
+      "summary": "Build 3x3 grid of variants from a measured winner. Exactly one variable per axis; rest frozen. Brand gate, safe-area checks, sourced claims, no hands on product/CTA. Approved winners to Drive; drafts to cockpit asset store. Hand to Revenue Lead for launch via pib-paid-ads."
+    },
+    "pib-competitor-ads": {
+      "tier": "growth",
+      "owner": "maya",
+      "risk": "low",
+      "requiredScopes": [],
+      "summary": "Monitor competitor ad strategies via Meta Ad Library to inform hooks and angles. DEFERRED until T6 tool exists; no scraping. Manual library viewing only; findings unverified until T6 lands."
+    },
+    "pib-drive-saving": {
+      "tier": "growth",
+      "owner": "pip",
+      "risk": "medium",
+      "requiredScopes": [],
+      "summary": "Where and how to save, name and share files on Google Drive for Partners in Biz. Folder layout, Higgsfield output, no root saves, no public links, human-readable names, rclone upload by folder ID via drive_folder_resolve registry."
     }
   },
   "verificationContract": {
